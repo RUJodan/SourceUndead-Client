@@ -1,4 +1,4 @@
-import apiBase from '../api';
+import APICreateAccount from '../API';
 
 export const CREATE_ACCOUNT_REQUEST = 'CREATE_ACCOUNT_REQUEST';
 function requestAccount() {
@@ -31,16 +31,8 @@ export default function createAccount(event, credentials) {
     dispatch(requestAccount());
 
     // make api call
-    const response = await fetch(`${apiBase}/create-account`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(credentials),
-    });
+    const json = await APICreateAccount(credentials);
 
-    const json = await response.json();
     if (json.flag) {
       const error = {
         error: json.msg,

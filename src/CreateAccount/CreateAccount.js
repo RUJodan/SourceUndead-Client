@@ -41,8 +41,8 @@ class CreateAccount extends React.Component {
     return (
       <div>
         <h2 className="title">SourceUndead :: Create an Account</h2>
-        <div className={errorClass}>{message}</div>
         <div className="container">
+          <div className={errorClass}>{message}</div>
           <form>
             <div className="row">
               <div className="twelve columns">
