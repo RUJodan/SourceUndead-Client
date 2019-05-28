@@ -1,3 +1,4 @@
 import { combineReducers } from 'redux';
+import createAccount from './createAccount';
 
-export default combineReducers({ });
+export default combineReducers({ createAccount });
