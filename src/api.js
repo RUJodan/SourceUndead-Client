@@ -15,6 +15,15 @@ async function CallAPI(route, body) {
 }
 
 // api call routes here
-export default function APICreateAccount(body) {
+function createAccount(body) {
   return CallAPI('create-account', body);
 }
+
+function login(body) {
+  return CallAPI('login', body);
+}
+
+export default {
+  createAccount,
+  login,
+};

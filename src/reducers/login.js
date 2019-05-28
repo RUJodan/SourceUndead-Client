@@ -1,4 +1,4 @@
-import { CREATE_ACCOUNT_SUCCESS, CREATE_ACCOUNT_REQUEST, CREATE_ACCOUNT_FAILURE } from '../actions/createAccount';
+import { LOGIN_REQUEST, LOGIN_FAILURE, LOGIN_SUCCESS } from '../actions/login';
 
 const initialState = {
   message: '',
@@ -7,22 +7,22 @@ const initialState = {
 
 export default function createAccount(state = initialState, action) {
   switch (action.type) {
-    case CREATE_ACCOUNT_REQUEST:
+    case LOGIN_REQUEST:
       return Object.assign({}, state, {
-        message: 'Validating account...',
+        message: 'Logging in...',
         errorClass: 'success',
       });
-    case CREATE_ACCOUNT_SUCCESS:
+    case LOGIN_SUCCESS:
       return Object.assign({}, state, {
         message: action.data.msg,
         errorClass: 'success',
       });
-    case CREATE_ACCOUNT_FAILURE:
+    case LOGIN_FAILURE:
       return Object.assign({}, state, {
         message: action.data.error,
         errorClass: 'error',
       });
-    case 'RESET_CREATE_ACCOUNT_PAGE':
+    case 'RESET_LOGIN_PAGE':
       return initialState;
     default:
       return state;

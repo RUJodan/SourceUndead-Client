@@ -1,4 +1,6 @@
-import APICreateAccount from '../API';
+import API from '../API';
+
+export const RESET_CREATE_ACCOUNT_PAGE = 'RESET_CREATE_ACCOUNT_PAGE';
 
 export const CREATE_ACCOUNT_REQUEST = 'CREATE_ACCOUNT_REQUEST';
 function requestAccount() {
@@ -23,15 +25,13 @@ function createAccountSuccess(data) {
   };
 }
 
-export default function createAccount(event, credentials) {
-  event.preventDefault();
-
+export default function createAccount(credentials) {
   return async (dispatch) => {
     // dispact request
     dispatch(requestAccount());
 
     // make api call
-    const json = await APICreateAccount(credentials);
+    const json = await API.createAccount(credentials);
 
     if (json.flag) {
       const error = {

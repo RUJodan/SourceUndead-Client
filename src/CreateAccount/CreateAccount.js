@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import createAccount from '../actions/createAccount';
+import { Link } from 'react-router-dom';
+import createAccount, { RESET_CREATE_ACCOUNT_PAGE } from '../actions/createAccount';
 
 class CreateAccount extends React.Component {
   constructor(props) {
@@ -14,6 +15,11 @@ class CreateAccount extends React.Component {
     };
 
     this.formChange = this.formChange.bind(this);
+  }
+
+  componentWillUnmount() {
+    const { reset } = this.props;
+    reset();
   }
 
   formChange(event) {
@@ -76,6 +82,19 @@ class CreateAccount extends React.Component {
                 <button onClick={e => submit(e, this.state)} type="submit" className="u-full-width button">Submit</button>
               </div>
             </div>
+
+            <div className="row">
+              <div className="twelve columns">
+                <div className="u-full-width">
+                  <small>
+                    Have an account?&nbsp;
+                    <Link to="/login">
+                      Login
+                    </Link>
+                  </small>
+                </div>
+              </div>
+            </div>
           </form>
         </div>
       </div>
@@ -85,6 +104,7 @@ class CreateAccount extends React.Component {
 
 CreateAccount.propTypes = {
   submit: PropTypes.func.isRequired,
+  reset: PropTypes.func.isRequired,
   message: PropTypes.string.isRequired,
   errorClass: PropTypes.string.isRequired,
 };
@@ -100,7 +120,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => ({
   // dispatching plain actions
-  submit: (event, state) => dispatch(createAccount(event, state)),
+  submit: (event, state) => {
+    event.preventDefault();
+    dispatch(createAccount(state));
+  },
+  reset: () => dispatch({ type: RESET_CREATE_ACCOUNT_PAGE }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateAccount);
