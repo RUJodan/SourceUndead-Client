@@ -1,4 +1,4 @@
-SourceUndead :: Server
+SourceUndead :: Client
 ============
 
 Multi-player [in progress] zombie game built with Postgres, Express, Redis, ReactJS and NodeJS
