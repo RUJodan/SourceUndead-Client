@@ -1,17 +1,14 @@
-import io from 'socket.io-client';
-
-const socket = io('http://localhost:8080');
-
 export const RESET_LOGIN_PAGE = 'RESET_LOGIN_PAGE';
-
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
+export const LOGIN_FAILURE = 'LOGIN_FAILURE';
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+
 function loginRequest() {
   return {
     type: LOGIN_REQUEST,
   };
 }
 
-export const LOGIN_FAILURE = 'LOGIN_FAILURE';
 function loginFailure(data) {
   return {
     type: LOGIN_FAILURE,
@@ -19,7 +16,6 @@ function loginFailure(data) {
   };
 }
 
-export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 function loginSuccess(data) {
   return {
     type: LOGIN_SUCCESS,
@@ -27,27 +23,25 @@ function loginSuccess(data) {
   };
 }
 
-export default function login(credentials) {
+function wsLoginResponse(data) {
   return async (dispatch) => {
-    // dispact request
-    dispatch(loginRequest());
+    if (data.flag) {
+      const error = {
+        error: data.msg,
+      };
 
-    // emit socket api call
-    socket.emit('login', credentials);
-
-    // listen for response
-    socket.on('login', (payload) => {
-      if (payload.flag) {
-        const error = {
-          error: payload.msg,
-        };
-
-        // dispatch error
-        dispatch(loginFailure(error));
-      } else {
-        // dispatch success
-        dispatch(loginSuccess(payload));
-      }
-    });
+      // dispatch error
+      dispatch(loginFailure(error));
+    } else {
+      // dispatch success
+      dispatch(loginSuccess(data));
+    }
   };
 }
+
+export {
+  loginRequest,
+  loginSuccess,
+  loginFailure,
+  wsLoginResponse,
+};

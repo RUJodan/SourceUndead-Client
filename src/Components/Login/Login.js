@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import login, { RESET_LOGIN_PAGE } from '../../Actions/login';
+import { RESET_LOGIN_PAGE, loginRequest } from '../../Actions/login';
+import socketEmit from '../../Websocket';
 
 class Login extends React.Component {
   constructor(props) {
@@ -14,6 +15,7 @@ class Login extends React.Component {
     };
 
     this.formChange = this.formChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentWillUnmount() {
@@ -30,6 +32,13 @@ class Login extends React.Component {
     });
   }
 
+  handleSubmit(event) {
+    event.preventDefault();
+    const { submit } = this.props;
+
+    submit(this.state);
+  }
+
   render() {
     const {
       username,
@@ -37,7 +46,6 @@ class Login extends React.Component {
     } = this.state;
 
     const {
-      submit,
       errorClass,
       message,
     } = this.props;
@@ -68,7 +76,7 @@ class Login extends React.Component {
 
             <div className="row">
               <div className="twelve columns">
-                <button onClick={e => submit(e, this.state)} type="submit" className="u-full-width button">Submit</button>
+                <button onClick={this.handleSubmit} type="submit" className="u-full-width button">Submit</button>
               </div>
             </div>
 
@@ -109,9 +117,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => ({
   // dispatching plain actions
-  submit: (event, state) => {
-    event.preventDefault();
-    return dispatch(login(state));
+  submit: (state) => {
+    socketEmit('login', state);
+    return dispatch(loginRequest(state));
   },
   reset: () => dispatch({ type: RESET_LOGIN_PAGE }),
 });

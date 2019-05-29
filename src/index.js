@@ -3,12 +3,12 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
 import AppRouter from './Router';
-import configureStore from './store';
+import Store from './store';
 
 import './index.scss';
 
 ReactDOM.render(
-  <Provider store={configureStore()}>
+  <Provider store={Store}>
     <AppRouter />
   </Provider>,
   document.getElementById('root'),
