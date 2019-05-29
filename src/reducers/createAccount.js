@@ -1,4 +1,4 @@
-import { CREATE_ACCOUNT_SUCCESS, CREATE_ACCOUNT_REQUEST, CREATE_ACCOUNT_FAILURE } from '../actions/createAccount';
+import { CREATE_ACCOUNT_SUCCESS, CREATE_ACCOUNT_REQUEST, CREATE_ACCOUNT_FAILURE } from '../Actions/createAccount';
 
 const initialState = {
   message: '',

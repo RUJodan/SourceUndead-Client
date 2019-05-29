@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import CreateAccount from './CreateAccount';
-import Login from './Login';
+import CreateAccount from './Components/CreateAccount';
+import Login from './Components/Login';
 
 function AppRouter() {
   return (

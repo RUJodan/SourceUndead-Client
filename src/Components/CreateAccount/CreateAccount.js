@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import createAccount, { RESET_CREATE_ACCOUNT_PAGE } from '../actions/createAccount';
+import createAccount, { RESET_CREATE_ACCOUNT_PAGE } from '../../Actions/createAccount';
 
 class CreateAccount extends React.Component {
   constructor(props) {

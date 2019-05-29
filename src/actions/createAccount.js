@@ -1,4 +1,6 @@
-import API from '../API';
+import io from 'socket.io-client';
+
+const socket = io('http://localhost:8080');
 
 export const RESET_CREATE_ACCOUNT_PAGE = 'RESET_CREATE_ACCOUNT_PAGE';
 
@@ -30,19 +32,22 @@ export default function createAccount(credentials) {
     // dispact request
     dispatch(requestAccount());
 
-    // make api call
-    const json = await API.createAccount(credentials);
+    // make socket api call
+    socket.emit('create-account', credentials);
 
-    if (json.flag) {
-      const error = {
-        error: json.msg,
-      };
+    // listen for response
+    socket.on('create-account', (payload) => {
+      if (payload.flag) {
+        const error = {
+          error: payload.msg,
+        };
 
-      // dispatch error
-      dispatch(createAccountFailed(error));
-    } else {
-      // dispatch success
-      dispatch(createAccountSuccess(json));
-    }
+        // dispatch error
+        dispatch(createAccountFailed(error));
+      } else {
+        // dispatch success
+        dispatch(createAccountSuccess(payload));
+      }
+    });
   };
 }

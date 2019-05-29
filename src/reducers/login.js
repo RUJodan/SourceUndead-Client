@@ -1,4 +1,4 @@
-import { LOGIN_REQUEST, LOGIN_FAILURE, LOGIN_SUCCESS } from '../actions/login';
+import { LOGIN_REQUEST, LOGIN_FAILURE, LOGIN_SUCCESS } from '../Actions/login';
 
 const initialState = {
   message: '',

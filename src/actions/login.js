@@ -1,4 +1,6 @@
-import API from '../API';
+import io from 'socket.io-client';
+
+const socket = io('http://localhost:8080');
 
 export const RESET_LOGIN_PAGE = 'RESET_LOGIN_PAGE';
 
@@ -30,19 +32,22 @@ export default function login(credentials) {
     // dispact request
     dispatch(loginRequest());
 
-    // make api call
-    const json = await API.login(credentials);
+    // emit socket api call
+    socket.emit('login', credentials);
 
-    if (json.flag) {
-      const error = {
-        error: json.msg,
-      };
+    // listen for response
+    socket.on('login', (payload) => {
+      if (payload.flag) {
+        const error = {
+          error: payload.msg,
+        };
 
-      // dispatch error
-      dispatch(loginFailure(error));
-    } else {
-      // dispatch success
-      dispatch(loginSuccess(json));
-    }
+        // dispatch error
+        dispatch(loginFailure(error));
+      } else {
+        // dispatch success
+        dispatch(loginSuccess(payload));
+      }
+    });
   };
 }
