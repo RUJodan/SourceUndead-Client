@@ -22,7 +22,7 @@ class AuthComponent extends React.Component {
       const path = location.pathname;
 
       // if not authenticated, redirect to login by setting the auth to false
-      if (path !== '/login' && path !== '/') {
+      if (path !== '/login' && path !== '/create-account') {
         this.setState({
           auth: false,
         });
