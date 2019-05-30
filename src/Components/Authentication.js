@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter, Redirect } from 'react-router-dom';
 import { socket, socketEmit } from '../Websocket';
+import Login from './Login';
 
 class AuthComponent extends React.Component {
   constructor(props) {
@@ -16,7 +17,7 @@ class AuthComponent extends React.Component {
     // handle unauthenticated from server
     const { location } = this.props;
 
-    socketEmit('authRoute', null);
+    socketEmit('authRoute');
 
     socket.on('unauthenticated', () => {
       const path = location.pathname;
@@ -43,12 +44,20 @@ class AuthComponent extends React.Component {
 
   render() {
     const { auth } = this.state;
-    const { route } = this.props;
-    let rendering = null;
+    const { route, location } = this.props;
+    const path = location.pathname;
+    let rendering = <Login />;
 
     if (auth === true) {
-      rendering = React.createElement(route, {});
+      // these 2 routes do not need to be accessed when a user is logged in
+      if (path === '/login' || path === '/create-account') {
+        rendering = <Redirect to="" />;
+      } else {
+        // render original component
+        rendering = React.createElement(route, {});
+      }
     } else if (auth === false) {
+      // redirect to login
       rendering = <Redirect to="login" />;
     }
 
@@ -57,7 +66,10 @@ class AuthComponent extends React.Component {
 }
 
 AuthComponent.propTypes = {
-  route: PropTypes.func.isRequired,
+  route: PropTypes.PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({}),
+  ]).isRequired,
   location: PropTypes.shape({}).isRequired,
   history: PropTypes.shape({}).isRequired,
 };

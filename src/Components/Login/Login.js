@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, withRouter, Redirect } from 'react-router-dom';
 import { RESET_LOGIN_PAGE, loginRequest } from '../../Actions/login';
 import { socketEmit } from '../../Websocket';
 
@@ -48,7 +48,13 @@ class Login extends React.Component {
     const {
       errorClass,
       message,
+      redirect,
     } = this.props;
+
+    // if you're already logged in, no need to be here
+    if (redirect) {
+      return <Redirect to="/" />;
+    }
 
     return (
       <div>
@@ -99,20 +105,26 @@ class Login extends React.Component {
   }
 }
 
+Login.defaultProps = {
+  redirect: false,
+};
+
 Login.propTypes = {
   submit: PropTypes.func.isRequired,
   reset: PropTypes.func.isRequired,
   message: PropTypes.string.isRequired,
   errorClass: PropTypes.string.isRequired,
+  redirect: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => {
   const {
     message,
     errorClass,
+    redirect,
   } = state.login;
 
-  return { message, errorClass };
+  return { message, errorClass, redirect };
 };
 
 const mapDispatchToProps = dispatch => ({
@@ -124,4 +136,4 @@ const mapDispatchToProps = dispatch => ({
   reset: () => dispatch({ type: RESET_LOGIN_PAGE }),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Login));

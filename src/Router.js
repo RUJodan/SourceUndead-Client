@@ -13,8 +13,8 @@ import Index from './Components';
 function AppRouter() {
   return (
     <Router>
-      <Route path="/login" component={Login} />
-      <Route path="/create-account" component={CreateAccount} />
+      <Route path="/login" render={() => <AuthComponent route={Login} />} />
+      <Route path="/create-account" render={() => <AuthComponent route={CreateAccount} />} />
       <Route exact path="/" render={() => <AuthComponent route={Index} />} />
     </Router>
   );

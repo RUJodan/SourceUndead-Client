@@ -5,6 +5,7 @@ export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_FAILURE = 'LOGIN_FAILURE';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 
+
 function loginRequest() {
   return {
     type: LOGIN_REQUEST,
@@ -18,15 +19,23 @@ function loginFailure(data) {
   };
 }
 
-function loginSuccess(data) {
-  // store token on localhost
-  window.sessionStorage.setItem('token', data.token);
-  reconnectWithJWT();
+function loginSuccess(data, ignoreReconnect = undefined) {
+  // store or reset token on localhost
+  if (ignoreReconnect === undefined) {
+    window.sessionStorage.setItem('token', data.token);
+
+    // establish connection with new token
+    reconnectWithJWT();
+  }
 
   return {
     type: LOGIN_SUCCESS,
     data,
   };
+}
+
+function loginRedirect(data) {
+  loginSuccess(data, true);
 }
 
 function wsLoginResponse(data) {
@@ -50,4 +59,5 @@ export {
   loginSuccess,
   loginFailure,
   wsLoginResponse,
+  loginRedirect,
 };
