@@ -6,7 +6,7 @@ import * as CreateAccountHandler from './Actions/createAccount';
 import * as LoginHandler from './Actions/login';
 
 // ws address
-const initialToken = localStorage.getItem('token');
+const initialToken = window.sessionStorage.getItem('token');
 const WS_ADDRESS = 'http://localhost:8080';
 
 // create the socket
@@ -21,7 +21,7 @@ socket.on('create-account', payload => Store.dispatch(CreateAccountHandler.wsCre
 socket.on('login', payload => Store.dispatch(LoginHandler.wsLoginResponse(payload)));
 
 function reconnectWithJWT() {
-  const token = localStorage.getItem('token');
+  const token = window.sessionStorage.getItem('token');
 
   // send authentication token
   socket.emit('authenticate', { token });

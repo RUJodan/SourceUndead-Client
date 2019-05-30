@@ -20,7 +20,7 @@ function loginFailure(data) {
 
 function loginSuccess(data) {
   // store token on localhost
-  window.localStorage.setItem('token', data.token);
+  window.sessionStorage.setItem('token', data.token);
   reconnectWithJWT();
 
   return {
