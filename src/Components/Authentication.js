@@ -57,7 +57,7 @@ class AuthComponent extends React.Component {
 }
 
 AuthComponent.propTypes = {
-  route: PropTypes.shape({}).isRequired,
+  route: PropTypes.func.isRequired,
   location: PropTypes.shape({}).isRequired,
   history: PropTypes.shape({}).isRequired,
 };

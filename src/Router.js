@@ -8,12 +8,14 @@ import AuthComponent from './Components/Authentication';
 // import pages
 import CreateAccount from './Components/CreateAccount';
 import Login from './Components/Login';
+import Index from './Components';
 
 function AppRouter() {
   return (
     <Router>
-      <Route exact path={['/', '/login']} component={Login} />
-      <Route path="/create-account" render={() => <AuthComponent route={CreateAccount} />} />
+      <Route path="/login" component={Login} />
+      <Route path="/create-account" component={CreateAccount} />
+      <Route exact path="/" render={() => <AuthComponent route={Index} />} />
     </Router>
   );
 }
