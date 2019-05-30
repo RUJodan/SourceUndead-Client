@@ -5,11 +5,34 @@ import Store from './store';
 import * as CreateAccountHandler from './Actions/createAccount';
 import * as LoginHandler from './Actions/login';
 
-const socket = io('http://localhost:8080');
+// ws address
+const initialToken = localStorage.getItem('token');
+const WS_ADDRESS = 'http://localhost:8080';
+
+// create the socket
+const socket = io(WS_ADDRESS);
+
+// if a token exists, validate and upgrade
+if (initialToken) {
+  socket.emit('authenticate', { token: initialToken });
+}
 
 socket.on('create-account', payload => Store.dispatch(CreateAccountHandler.wsCreateAccountResponse(payload)));
 socket.on('login', payload => Store.dispatch(LoginHandler.wsLoginResponse(payload)));
 
-export default function socketEmit(address, payload) {
+function reconnectWithJWT() {
+  const token = localStorage.getItem('token');
+
+  // send authentication token
+  socket.emit('authenticate', { token });
+}
+
+function socketEmit(address, payload) {
   socket.emit(address, payload);
 }
+
+export {
+  reconnectWithJWT,
+  socketEmit,
+  socket,
+};

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { RESET_LOGIN_PAGE, loginRequest } from '../../Actions/login';
-import socketEmit from '../../Websocket';
+import { socketEmit } from '../../Websocket';
 
 class Login extends React.Component {
   constructor(props) {

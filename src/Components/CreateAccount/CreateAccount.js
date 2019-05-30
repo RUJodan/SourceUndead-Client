@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { RESET_CREATE_ACCOUNT_PAGE, requestAccount } from '../../Actions/createAccount';
-import socketEmit from '../../Websocket';
+import { socketEmit } from '../../Websocket';
 
 class CreateAccount extends React.Component {
   constructor(props) {

@@ -1,3 +1,5 @@
+import { reconnectWithJWT } from '../Websocket';
+
 export const RESET_LOGIN_PAGE = 'RESET_LOGIN_PAGE';
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_FAILURE = 'LOGIN_FAILURE';
@@ -17,6 +19,10 @@ function loginFailure(data) {
 }
 
 function loginSuccess(data) {
+  // store token on localhost
+  window.localStorage.setItem('token', data.token);
+  reconnectWithJWT();
+
   return {
     type: LOGIN_SUCCESS,
     data,
