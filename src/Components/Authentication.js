@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { withRouter, Redirect } from 'react-router-dom';
 import { socket, socketEmit } from '../Websocket';
 import Login from './Login';
+import CreateAccount from './CreateAccount';
 
 class AuthComponent extends React.Component {
   constructor(props) {
@@ -59,6 +60,8 @@ class AuthComponent extends React.Component {
     } else if (auth === false) {
       // redirect to login
       rendering = <Redirect to="login" />;
+    } else if (path === '/create-account') {
+      rendering = <CreateAccount />;
     }
 
     return rendering;
