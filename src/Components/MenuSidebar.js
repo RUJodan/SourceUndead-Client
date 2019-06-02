@@ -1,5 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { socketEmit } from '../Websocket';
+
+function logout() {
+  socketEmit('logout');
+
+  // remove session
+  window.sessionStorage.removeItem('token');
+
+  // reload to apply token logout
+  window.location.reload();
+}
 
 const MenuSideBar = () => (
   <div className="sidebar">
@@ -31,13 +42,13 @@ const MenuSideBar = () => (
           &nbsp;Github
         </a>
       </li>
-      <li>
-        <Link to="/logout">
-          <i className="menu-option fa fa-power-off fa-2x" />
-          &nbsp;Logout
-        </Link>
-      </li>
     </ul>
+    <div className="logout">
+      <button onClick={logout} type="button">
+        <i className="menu-option fa fa-power-off fa-2x" />
+        &nbsp;Logout
+      </button>
+    </div>
   </div>
 );
 
