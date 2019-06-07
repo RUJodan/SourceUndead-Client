@@ -53,7 +53,7 @@ class CreateAccount extends React.Component {
     } = this.props;
 
     return (
-      <div>
+      <div className="content">
         <h2 className="title">SourceUndead :: Create an Account</h2>
         <div className="container">
           <div className={errorClass}>{message}</div>

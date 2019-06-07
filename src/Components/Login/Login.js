@@ -57,7 +57,7 @@ class Login extends React.Component {
     }
 
     return (
-      <div>
+      <div className="content">
         <h2 className="title">SourceUndead</h2>
         <div className="container">
           <form>

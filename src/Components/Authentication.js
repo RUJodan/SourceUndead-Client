@@ -47,12 +47,12 @@ class AuthComponent extends React.Component {
     const { auth } = this.state;
     const { route, location } = this.props;
     const path = location.pathname;
-    let rendering = <Login />;
+    let rendering = null;
 
     if (auth === true) {
       // these 2 routes do not need to be accessed when a user is logged in
       if (path === '/login' || path === '/create-account') {
-        rendering = <Redirect to="" />;
+        rendering = <Redirect to="/" />;
       } else {
         // render original component
         rendering = React.createElement(route, {});
@@ -60,9 +60,15 @@ class AuthComponent extends React.Component {
     } else if (auth === false) {
       // redirect to login
       rendering = <Redirect to="login" />;
-    } else if (path === '/create-account') {
+      if (path === '/create-account') {
+        rendering = <CreateAccount />;
+      }
+    } else if (auth === null && (path === '/login')) {
+      rendering = <Login />;
+    } else if (auth === null && (path === '/create-account')) {
       rendering = <CreateAccount />;
     }
+
 
     return rendering;
   }
@@ -74,7 +80,6 @@ AuthComponent.propTypes = {
     PropTypes.shape({}),
   ]).isRequired,
   location: PropTypes.shape({}).isRequired,
-  history: PropTypes.shape({}).isRequired,
 };
 
 export default withRouter(AuthComponent);
